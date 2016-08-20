@@ -30,9 +30,21 @@ class Login extends CI_Controller {
 	}
 
 	public function auth(){
-		$this->load->model('Person');
+		/*$this->load->model('Person');
 		$data['result'] = $this->Person->getperson();
-		var_dump($data['result']);
+		var_dump($data['result']);*/
+		$name = $_POST['name'];
+		$age = $_POST['age'];
+		$sql = "select * from person where name = ? and age = ?";
+		$query = $this->db->query($sql,array($name,$age));
+		if($query->result()){
+			echo("successfully logged in ".$name);
+		}else{
+			$data['header'] = "<h1><b><i>Get In awesome PHP Codeigniter Framework</i></b></h1>";
+			$data['error'] = "<small>Invalid user! unauthorized credentials you are trying to access</small>";
+			$this->load->view('loginview/login',$data);
+			/*echo "<script>window.location.assign('/login')</script>";*/
+		}
 	}
 
 }
